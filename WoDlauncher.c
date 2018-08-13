@@ -31,6 +31,7 @@ t_des	WoD_result(int n, int seuil, int again, int rote)
 	while (i < n)
 	{
 		d = D_10();
+		printf("%d\n", d);
 		if (d >= seuil)
 		{
 			des.reussites++;
@@ -48,8 +49,9 @@ t_des	WoD_result(int n, int seuil, int again, int rote)
 	{
 		relance = WoD_result(n - des.reussites + des.uns, seuil, again, rote - 1);
 		des.relances = des.relances + des.uns - relance.uns + relance.relances;
+		des.reussites += relance.reussites;
 	}
-	if (des.relances > 0)
+	if (des.relances > 0 && rote <= 0)
 	{
 		relance = WoD_result(des.relances - des.uns, seuil, again, 0);
 		des.reussites += relance.reussites + relance.uns;
@@ -65,18 +67,18 @@ int main()
 	int count;
 
 	srand(time(NULL));
-	while (j <= 10)
-	{
+//	while (j <= 10)
+//	{
 		count = 0;
 		sum = 0;
 		i = 0;
-		while (i < 100000)
-		{
-			sum += WoD_result(j, 7, 10, 1).reussites;
-			i++;
-		}
+//		while (i < 100000)
+//		{
+			printf("reussites : %d\n", WoD_result(2, 7, 10, 1).reussites);
+//			i++;
+//		}
 
-		printf("%d %f\n", j, sum / 100000.0);
-		j++;
-	}
+//		printf("%d %f\n", j, sum / 100000.0);
+//		j++;
+//	}
 }
