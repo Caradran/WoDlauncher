@@ -47,8 +47,14 @@ t_des	WoD_result(int n, int seuil, int again, int rote)
 	}
 	if (rote > 0)
 	{
-		relance = WoD_result(n - des.reussites + des.uns, seuil, again, rote - 1);
-		des.relances = des.relances + des.uns - relance.uns + relance.relances;
+		if (des.reussites - des.uns >= 0)
+			relance = WoD_result(n - des.reussites + des.uns, seuil, again, rote - 1);
+		else
+		{
+			relance = WoD_result(n, seuil, again, rote - 1);
+			des.reussites = 0;
+		}
+		des.relances = des.relances - relance.uns + relance.relances;
 		des.reussites += relance.reussites;
 	}
 	if (des.relances > 0 && rote <= 0)
