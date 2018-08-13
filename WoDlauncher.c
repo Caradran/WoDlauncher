@@ -35,7 +35,7 @@ t_des	WoD_result(int n, int seuil, int again, int rote, int flag)
 		if (!flag)
 			printf("rote : %d\n", d);
 		else
-			printf("%d\n", d);
+			printf("%d ", d);
 		if (d >= seuil)
 		{
 			k++;
@@ -60,6 +60,7 @@ t_des	WoD_result(int n, int seuil, int again, int rote, int flag)
 	}
 	if (des.relances > 0 && flag)
 	{
+		printf("\n");
 		relance = WoD_result(des.relances, seuil, again, 0, 1);
 		if (relance.reussites > 0)
 			des.reussites += relance.reussites;
@@ -67,7 +68,7 @@ t_des	WoD_result(int n, int seuil, int again, int rote, int flag)
 	return (des);
 }
 
-int main()
+int main(int argc, char **argv)
 {
 	int i;
 	int j = 1;
@@ -82,7 +83,7 @@ int main()
 		i = 0;
 //		while (i < 100000)
 //		{
-			printf("reussites : %d\n", WoD_result(2, 7, 7, 1, 1).reussites);
+			printf("\nreussites : %d\n", WoD_result(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), 1).reussites);
 //			i++;
 //		}
 
