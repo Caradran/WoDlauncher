@@ -19,7 +19,7 @@ int D_10(void)
 	return(p + 1);
 }
 
-t_des	WoD_result(int n, int seuil, int again, int rote)
+t_des	WoD_result(int n, int seuil, int again, int rote, int flag)
 {
 	int		i = 0;
 	int		d = 0;
@@ -48,18 +48,18 @@ t_des	WoD_result(int n, int seuil, int again, int rote)
 	if (rote > 0)
 	{
 		if (des.reussites - des.uns >= 0)
-			relance = WoD_result(n - des.reussites + des.uns, seuil, again, rote - 1);
+			relance = WoD_result(n - des.reussites + des.uns, seuil, again, rote - 1, 0);
 		else
 		{
-			relance = WoD_result(n, seuil, again, rote - 1);
+			relance = WoD_result(n, seuil, again, rote - 1, 0);
 			des.reussites = 0;
 		}
 		des.relances = des.relances + des.uns - relance.uns + relance.relances;
 		des.reussites += relance.reussites;
 	}
-	if (des.relances > 0 && rote <= 0)
+	if (des.relances > 0 && flag)
 	{
-		relance = WoD_result(des.relances - des.uns, seuil, again, 0);
+		relance = WoD_result(des.relances - des.uns, seuil, again, 0, 1);
 		des.reussites += relance.reussites + relance.uns;
 	}
 	return (des);
@@ -80,7 +80,7 @@ int main()
 		i = 0;
 //		while (i < 100000)
 //		{
-			printf("reussites : %d\n", WoD_result(2, 7, 10, 1).reussites);
+			printf("reussites : %d\n", WoD_result(2, 7, 10, 1, 1).reussites);
 //			i++;
 //		}
 
