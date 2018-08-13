@@ -3,6 +3,13 @@
 #include <stdlib.h>
 #include <time.h>
 
+typedef struct s_des
+{
+	int reussites;
+	int relances;
+	int uns;
+}				t_des;
+
 int D_10(void)
 {
 	double p;
@@ -12,36 +19,37 @@ int D_10(void)
 	return(p + 1);
 }
 
-int WoD_result(int n, int seuil)
+t_des	WoD_result(int n, int seuil, int again)
 {
-	int i = 0;
-	int dixs = 0;
-	int reussites = 0;
-	int d = 0;
+	int		i = 0;
+	int		d = 0;
+	t_des	des = {0, 0, 0};
+	t_des	relance = {0, 0, 0};
 
-	if (n <= 0 || seuil > 10)
-		return (reussites);
+	if (n <= 0 || seuil > 10 || again <= 1)
+		return (des);
 	while (i < n)
 	{
 		d = D_10();
-//		printf("%d ", d);
 		if (d >= seuil)
 		{
-			reussites++;
-			if (d == 10)
-				dixs++;
+			des.reussites++;
+			if (d >= again)
+				des.relances++;
 		}
 		if (d == 1)
 		{
-			reussites--;
-			dixs--;
+			des.reussites--;
+			des.uns++;
 		}
 		i++;
 	}
-//	printf("\n");
-	if (dixs > 0)
-		reussites += WoD_result(dixs, seuil);
-	return (reussites);
+	if (des.relances > 0)
+	{
+		relance = WoD_result(des.relances - des.uns, seuil, again);
+		des.reussites += relance.reussites + relance.uns;
+	}
+	return (des);
 }
 
 int main()
@@ -57,18 +65,14 @@ int main()
 		count = 0;
 		sum = 0;
 		i = 0;
-		while (i < 10000000)
+		while (i < 100000)
 		{
-			if (WoD_result(j, 7) < 0)
-				count++;
 
-//			sum += WoD_result(j, 7);
-//			printf("%d\n", WoD_result(j, 7));
+			sum += WoD_result(j, 7, 6).reussites;
 			i++;
 		}
-		printf("%d %f\n", j, count/10000000.0);
-		printf("\n");
-//		printf("%f\n", sum / 100000.0);
+
+		printf("%d %f\n", j, sum / 100000.0);
 		j++;
 	}
 }
