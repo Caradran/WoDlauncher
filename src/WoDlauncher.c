@@ -13,7 +13,8 @@ static t_dice	wod_launch(int n, int threshold, int again)
 	while (i < n)
 	{
 		d = d_10();
-		printf("%d ", d);
+		if (PRINT)
+			printf("%d ", d);
 		if (d >= threshold)
 		{
 			dice.succes++;
@@ -24,7 +25,8 @@ static t_dice	wod_launch(int n, int threshold, int again)
 			dice.ones++;
 		i++;
 	}
-	printf("\n");
+	if (PRINT)
+		printf("\n");
 	return (dice);
 }
 
@@ -35,7 +37,8 @@ static t_dice	launch_rote(int n, int threshold, int again, int nb_rote)
 	dice = (t_dice){0, 0, 0};
 	if (nb_rote <= 0 || n <= 0)
 		return (dice);
-	printf("rote: ");
+	if (PRINT)
+		printf("rote: ");
 	dice = wod_launch(n, threshold, again);
 	if (nb_rote - 1 != 0)
 		dice.ones = 0;
@@ -49,7 +52,8 @@ static t_dice	reroll(int n, int threshold, int again)
 	dice = (t_dice){0, 0, 0};
 	if (n <= 0)
 		return (dice);
-	printf("reroll: ");
+	if (PRINT)
+		printf("reroll: ");
 	dice = wod_launch(n, threshold, again);
 	return (add_dice(dice, reroll(dice.throw_again - dice.ones, threshold, again)));
 }

@@ -72,7 +72,8 @@ long int	parse(char *str)
 		i++;
 	}
 	res = wod_result(atoi(split[0]), atoi(split[1]), atoi(split[2]), atoi(split[3]));
-	printf("resultat :%ld\n", res);
+	if (PRINT)
+		printf("resultat :%ld\n", res);
 	return (res);
 }
 

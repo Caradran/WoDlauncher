@@ -12,11 +12,11 @@ all : $(NAME)
 $(NAME) : $(OBJ)
 	@$(CC) -o $(NAME) $(FLAGS) $(OBJ)
 
-$(OBJ_PATH)/%.o : %.c
+$(OBJ_PATH)/%.o : $(SRC_PATH)/%.c
 	@$(CC) $(FLAGS) -c $< -o $@
 
 clean : 
-	@rm -rf $(OBJ_PATH)/$(OBJ)
+	@rm -rf $(OBJ)
 
 fclean : clean
 	@rm -rf $(NAME)
