@@ -73,19 +73,19 @@ long int	parse(char *str)
 	}
 	res = wod_result(atoi(split[0]), atoi(split[1]), atoi(split[2]), atoi(split[3]));
 	if (PRINT)
-		printf("resultat :%ld\n", res);
+		printf("resultat : %ld\n", res);
 	return (res);
 }
 
 int main(int argc, char **argv)
 {
-	long int tab;
+	long int res;
 
 	srand(time(NULL));
 	if (argc == 2)
 	{
-		tab = parse(argv[1]);
-		printf("%ld\n", tab);
+		res = parse(argv[1]);
+		printf("\n resultat final : %ld\n", res);
 	}
-	return (0);
+	return (res);
 }

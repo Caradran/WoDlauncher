@@ -14,7 +14,14 @@ static t_dice	wod_launch(int n, int threshold, int again)
 	{
 		d = d_10();
 		if (PRINT)
-			printf("%d ", d);
+		{
+			if (d >= threshold)
+				printf("***%d*** ", d);
+			else if (d == 1)
+				printf("***%d*** ", d);
+			else
+				printf("%d ", d);
+		}
 		if (d >= threshold)
 		{
 			dice.succes++;
@@ -64,7 +71,7 @@ long int		wod_result(int n, int threshold, int again, int nb_rote)
 	t_dice		dice;
 	t_dice		retry;
 
-	if (n <= 0 || threshold > 10 || again <= 1 || nb_rote < 0)
+	if (n <= 0 || threshold > 10 || again <= 1 || nb_rote < 0 || n > 10000000)
 		return (0);
 	dice = wod_launch(n, threshold, again);
 	rote = launch_rote(n - dice.succes, threshold, again, nb_rote);

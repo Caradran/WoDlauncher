@@ -5,7 +5,7 @@
 # include <stdlib.h>
 # include <time.h>
 
-# define PRINT 0
+# define PRINT 1
 
 typedef struct	s_dice
 {
