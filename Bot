@@ -1,0 +1,14 @@
+# Work with Python 3.6
+from discord.ext.commands import Bot
+
+TOKEN = 'NDc4OTkyNzIwMjU0NDY4MDk3.DlS2gg.7Hy76jvzPT-XNUtkibrEUE7DPSY'
+BOT_PREFIX = {"+", "-"}
+
+
+client = Bot(command_prefix=BOT_PREFIX)
+
+@client.command()
+async def roll(message):
+    
+
+client.run(TOKEN)
