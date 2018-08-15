@@ -4,7 +4,7 @@ import sys, time
 import re
 
 
-TOKEN = 'NDc4OTkyNzIwMjU0NDY4MDk3.DlS2gg.7Hy76jvzPT-XNUtkibrEUE7DPSI'
+TOKEN = 'XXX'
 
 client = discord.Client()
 
