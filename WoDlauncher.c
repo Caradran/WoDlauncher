@@ -1,16 +1,7 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
-#include <time.h>
+#include <WoDlauncher.h>
 
-typedef struct s_des
-{
-	int reussites;
-	int relances;
-	int uns;
-}				t_des;
 
-int D_10(void)
+static int D_10(void)
 {
 	double p;
 
@@ -19,75 +10,86 @@ int D_10(void)
 	return(p + 1);
 }
 
-t_des	WoD_result(int n, int seuil, int again, int rote, int flag)
+static t_dice add_dice(t_dice a, t_dice b)
 {
-	int		i = 0;
-	int		d = 0;
-	int		k = 0;
-	t_des	des = {0, 0, 0};
-	t_des	relance = {0, 0, 0};
+	t_dice c;
 
-	if (n <= 0 || seuil > 10 || again <= 1 || rote < 0)
-		return (des);
+	c.succes = a.succes + b.succes;
+	c.throw_again =  a.throw_again + b.throw_again;
+	c.ones = a.ones + b.ones;
+	
+	return c;
+}
+
+static t_dice WoD_Launch(int n, int threshold, int again)
+{
+	t_dice	dice = {0, 0, 0};
+	int i = 0;
+	int d = 0;
+
+
+	if (n <= 0 || threshold > 10 || again <= 1)
+		return (dice);
 	while (i < n)
 	{
 		d = D_10();
-		if (!flag)
-			printf("rote : %d\n", d);
-		else
-			printf("%d ", d);
-		if (d >= seuil)
+		printf("%d ", d);
+		if (d >= threshold)
 		{
-			k++;
-			des.reussites++;
+			dice.succes++;
 			if (d >= again)
-				des.relances++;
+				dice.throw_again++;
 		}
 		if (d == 1)
-		{
-			des.relances--;
-			des.reussites--;
-			des.uns++;
-		}
+			dice.ones++;
 		i++;
 	}
-	if (rote > 0 && n - k > 0)
-	{
-		relance = WoD_result(n - k, seuil, again, rote - 1, 0);
-		des.relances = des.relances + des.uns - relance.uns + relance.relances;
-		des.reussites += relance.reussites;
-		des.uns = relance.uns;
-	}
-	if (des.relances > 0 && flag)
-	{
-		printf("\n");
-		relance = WoD_result(des.relances, seuil, again, 0, 1);
-		if (relance.reussites > 0)
-			des.reussites += relance.reussites;
-	}
-	return (des);
+	printf("\n");
+	return (dice);
 }
 
-int main(int argc, char **argv)
+static t_dice	launch_rote(int n, int threshold, int again, int nb_rote, int flag)
 {
-	int i;
-	int j = 1;
-	int	sum;
-	int count;
+	t_dice dice = {0, 0, 0};
 
+	if (nb_rote <= 0 || n <= 0)
+		return (dice);
+	printf("rote: ");
+	dice = WoD_Launch(n, threshold, again);
+	if (!flag)
+		dice.ones = 0;
+	return (add_dice(dice, launch_rote(n - dice.succes, threshold, again, nb_rote - 1, 0)));
+}
+
+static t_dice	reroll(int n, int threshold, int again)
+{
+	t_dice dice = {0, 0, 0};
+
+	if (n <= 0)
+		return (dice);
+	printf("reroll: ");
+	dice = WoD_Launch(n, threshold, again);
+	return (add_dice(dice, reroll(dice.throw_again - dice.ones, threshold, again)));
+}
+
+long int WoD_result(int n, int threshold, int again, int nb_rote)
+{
+	t_dice		rote = {0, 0, 0};
+	t_dice		dice = {0, 0, 0};
+	t_dice		retry = {0, 0, 0};
+
+	if (n <= 0 || threshold > 10 || again <= 1 || nb_rote < 0)
+		return (0);
+	dice = WoD_Launch(n, threshold, again);
+	rote = launch_rote(n - dice.succes, threshold, again, nb_rote, 1);
+	retry = reroll(dice.throw_again + rote.throw_again - rote.ones, threshold, again);
+	if (nb_rote > 0)
+		return (retry.succes + dice.succes + rote.succes - rote.ones);
+	return (retry.succes + dice.succes + rote.succes - dice.ones);
+}
+
+int main(int agrc, char **argv)
+{
 	srand(time(NULL));
-//	while (j <= 10)
-//	{
-		count = 0;
-		sum = 0;
-		i = 0;
-//		while (i < 100000)
-//		{
-			printf("\nreussites : %d\n", WoD_result(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), 1).reussites);
-//			i++;
-//		}
-
-//		printf("%d %f\n", j, sum / 100000.0);
-//		j++;
-//	}
+	printf("\nsucces : %ld\n", WoD_result(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4])));
 }
