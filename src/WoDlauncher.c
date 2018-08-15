@@ -1,24 +1,5 @@
 #include "WoDlauncher.h"
 
-static int		d_10(void)
-{
-	double p;
-
-	p = (double)rand() / RAND_MAX;
-	p *= 10;
-	return (p + 1);
-}
-
-static t_dice	add_dice(t_dice a, t_dice b)
-{
-	t_dice c;
-
-	c.succes = a.succes + b.succes;
-	c.throw_again = a.throw_again + b.throw_again;
-	c.ones = a.ones + b.ones;
-	return (c);
-}
-
 static t_dice	wod_launch(int n, int threshold, int again)
 {
 	t_dice	dice;
