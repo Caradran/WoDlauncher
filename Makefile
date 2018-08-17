@@ -5,7 +5,7 @@ OBJ_PATH = obj
 OBJ = $(SRC:%.c=$(OBJ_PATH)/%.o)
 
 CC = gcc
-FLAGS = -Iincludes
+FLAGS = -Iincludes -O3 -lsodium
 
 all : $(NAME)
 

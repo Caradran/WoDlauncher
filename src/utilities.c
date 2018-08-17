@@ -39,10 +39,12 @@ int		is_num(char c)
 
 int		d_10(void)
 {
-	double p;
+	uint32_t p;
 
-	p = (double)rand() / RAND_MAX;
-	p *= 10;
+	if (sodium_init() < 0)
+        return -1; 
+
+	p = randombytes_uniform(10);
 	return (p + 1);
 }
 

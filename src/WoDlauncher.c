@@ -15,9 +15,7 @@ static t_dice	wod_launch(int n, int threshold, int again)
 		d = d_10();
 		if (PRINT)
 		{
-			if (d >= threshold)
-				printf("***%d*** ", d);
-			else if (d == 1)
+			if (d >= threshold || d == 1)
 				printf("***%d*** ", d);
 			else
 				printf("%d ", d);
