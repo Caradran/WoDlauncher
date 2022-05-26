@@ -54,7 +54,6 @@ t_dice	add_dice(t_dice a, t_dice b)
 
 	c.succes = a.succes + b.succes;
 	c.throw_again = a.throw_again + b.throw_again;
-	c.ones = a.ones + b.ones;
 	return (c);
 }
 

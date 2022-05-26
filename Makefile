@@ -12,6 +12,9 @@ all : $(NAME)
 $(NAME) : $(OBJ)
 	@$(CC) -o $(NAME) $(FLAGS) $(OBJ)
 
+rodent :
+	@$gcc -o rodent -Iincludes -O3 -lsodium ./src/rodent.c
+
 $(OBJ_PATH)/%.o : $(SRC_PATH)/%.c
 	@$(CC) $(FLAGS) -c $< -o $@
 

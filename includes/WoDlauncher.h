@@ -4,15 +4,16 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <time.h>
+# include <math.h>
 # include "sodium.h"
 
 # define PRINT 1
+# define DEBUG 0
 
 typedef struct	s_dice
 {
 	long int	succes;
 	int			throw_again;
-	int			ones;
 }				t_dice;
 
 typedef	struct	s_ast
